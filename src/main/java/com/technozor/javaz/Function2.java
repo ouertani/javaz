@@ -17,11 +17,12 @@ public interface Function2<T, U, R> extends Function<T, Function<U, R>> {
         return t -> u -> after.apply(apply(t).apply(u));
     }
 
-    default BiFunction<T,U,R> uncurrying () {
+    default BiFunction<T,U,R> unCurried () {
         return (t, u) -> apply(t).apply(u);
     }
 
-    static <T,U,R>  Function2<T,U,R> currying (BiFunction<T,U,R> f) {
+    static <T,U,R>  Function2<T,U,R> curried (BiFunction<T,U,R> f) {
+        Objects.requireNonNull(f);
         return t -> u -> f.apply(t,u);
     }
 }
