@@ -11,12 +11,12 @@ public interface Function3<Q, T, U, R> extends Function<Q, Function2<T, U, R>> {
     Function2<T, U, R> apply(Q q);
 
 
-    default <V> Function3<Q, T, U, V> andApply(Function2<? super U, ? super R, ? extends V> after) {
+    default <V> Function3<Q, T, U, V> withThen(Function2<? super U, ? super R, ? extends V> after) {
         Objects.requireNonNull(after);
         return q -> t -> u -> after.apply(u).apply(apply(q).apply(t).apply(u));
     }
 
-    default <V> Function3<Q, T, U, V> andApply(Function<? super R, ? extends V> after) {
+    default <V> Function3<Q, T, U, V> withThen(Function<? super R, ? extends V> after) {
         Objects.requireNonNull(after);
         return q -> t -> u -> after.apply(apply(q).apply(t).apply(u));
     }

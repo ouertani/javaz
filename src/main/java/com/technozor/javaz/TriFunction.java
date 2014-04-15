@@ -10,7 +10,7 @@ public interface TriFunction<Q, T, U, R> {
 
     R apply(Q q, T t, U u);
 
-    default <V> TriFunction<Q, T, U, V> andApply(Function<? super R, ? extends V> after) {
+    default <V> TriFunction<Q, T, U, V> withThen(Function<? super R, ? extends V> after) {
         return (q, t, u) -> after.apply(apply(q, t, u));
     }
 

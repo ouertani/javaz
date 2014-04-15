@@ -12,7 +12,7 @@ public interface Function2<T, U, R> extends Function<T, Function<U, R>> {
 
     Function<U, R> apply(T t);
 
-    default <V> Function2<T, U, V> andApply(Function<? super R, ? extends V> after) {
+    default <V> Function2<T, U, V> withThen(Function<? super R, ? extends V> after) {
         Objects.requireNonNull(after);
         return t -> u -> after.apply(apply(t).apply(u));
     }
