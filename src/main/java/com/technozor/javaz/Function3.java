@@ -21,10 +21,9 @@ public interface Function3<Q, T, U, R> extends Function<Q, Function2<T, U, R>> {
         return q -> t -> u -> after.apply(apply(q).apply(t).apply(u));
     }
 
-    default   TriFunction<Q,T,U,R> _ ( ) {
+    default TriFunction<Q, T, U, R> _() {
         return (q, t, u) -> apply(q).apply(t).apply(u);
     }
-
 
 
 }
