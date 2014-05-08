@@ -4,8 +4,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
-import java.util.function.Function;
-
 import static junit.framework.TestCase.assertEquals;
 
 /**
@@ -73,15 +71,26 @@ public class LensTest {
     Lens<Address, Integer> addressZipCodeLens = Lens.lens(Address::getZipCode, (a,z) -> new Address(a.getStreet(), a.getCity(), a.getState(), z));
 
 
+
     @Test
     public void testLenses() {
         Person person = new Person("Jack", "Smith", new Address("Default", "Default", "Default", 0));
 
-        Lens<Person, Integer> personZipCodeLens = personAddressLens.mandThen(addressZipCodeLens);
+        Lens<Person, Integer> personZipCodeLens = personAddressLens.round(addressZipCodeLens);
 
         Person p1 = personZipCodeLens.setter.apply(person, personZipCodeLens.getter.apply(person) + 1);
         assertEquals(p1.address.zipCode - 1, 0);
     }
 
+
+    @Test
+    public void testMod() {
+        Person person = new Person("Jack", "Smith", new Address("Default", "Default", "Default", 0));
+
+        Lens<Person, Integer> personZipCodeLens = personAddressLens.round(addressZipCodeLens);
+
+        Person p1 = personZipCodeLens.mod(person, a -> a + 1);
+        assertEquals(p1.address.zipCode - 1, 0);
+    }
 
 }

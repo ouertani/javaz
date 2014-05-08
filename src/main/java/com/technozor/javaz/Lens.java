@@ -20,7 +20,7 @@ public class Lens<A,B> implements Function<A,B> {
         return new Lens<>(c -> getter.apply(that.apply(c)), (c,b) ->that.mod(c, a -> setter.apply(a, b) ));
     }
 
-    public <C> Lens<A, C> mandThen(Lens<B, C> that) {
+    public <C> Lens<A, C> round(Lens<B, C> that) {
         return that.mcompose(this);
     }
 
