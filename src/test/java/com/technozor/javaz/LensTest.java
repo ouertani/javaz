@@ -67,6 +67,7 @@ public class LensTest {
         }
 
     }
+
     Lens<Person, Address>  personAddressLens = Lens.lens(Person::getAddress, (p,a) ->  new Person(p.getFirstName(), p.getLastName(), a));
     Lens<Address, Integer> addressZipCodeLens = Lens.lens(Address::getZipCode, (a,z) -> new Address(a.getStreet(), a.getCity(), a.getState(), z));
 
@@ -76,7 +77,7 @@ public class LensTest {
     public void testLenses() {
         Person person = new Person("Jack", "Smith", new Address("Default", "Default", "Default", 0));
 
-        Lens<Person, Integer> personZipCodeLens = personAddressLens.round(addressZipCodeLens);
+        Lens<Person, Integer> personZipCodeLens = personAddressLens.andThen(addressZipCodeLens);
 
         Person p1 = personZipCodeLens.setter.apply(person, personZipCodeLens.getter.apply(person) + 1);
         assertEquals(p1.address.zipCode - 1, 0);
@@ -87,9 +88,9 @@ public class LensTest {
     public void testMod() {
         Person person = new Person("Jack", "Smith", new Address("Default", "Default", "Default", 0));
 
-        Lens<Person, Integer> personZipCodeLens = personAddressLens.round(addressZipCodeLens);
+        Lens<Person, Integer> personZipCodeLens = personAddressLens.andThen(addressZipCodeLens);
 
-        Person p1 = personZipCodeLens.mod(person, a -> a + 1);
+        Person p1 = personZipCodeLens.mod(person, z -> z + 1);
         assertEquals(p1.address.zipCode - 1, 0);
     }
 
